@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUTOWORK - Jarvis Desktop Assistant</title>
+    <!-- Google Fonts: Orbitron e Exo 2 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="background-overlay"></div>
+    <div class="hud-container">
+        <!-- Linhas Decorativas de Grade Sci-fi -->
+        <div class="grid-line horizontal-top"></div>
+        <div class="grid-line horizontal-bottom"></div>
+        <div class="grid-line vertical-left"></div>
+        <div class="grid-line vertical-right"></div>
+        
+        <!-- Elementos de Canto HUD (Jarvis look) -->
+        <div class="hud-corner top-left"></div>
+        <div class="hud-corner top-right"></div>
+        <div class="hud-corner bottom-left"></div>
+        <div class="hud-corner bottom-right"></div>
+
+        <!-- Cabeçalho Principal -->
+        <header class="hud-header">
+            <div class="system-status">
+                <span class="pulse-dot active" id="status-pulse"></span>
+                <span id="status-text">SYSTEM STATUS: ONLINE</span>
+            </div>
+            <div class="clock-display" id="hud-clock">00:00:00</div>
+            <div class="auth-tag">AUTOWORK // PROTOCOL V1.0</div>
+        </header>
+
+        <!-- Conteúdo Central: Reator do Jarvis -->
+        <main class="hud-main">
+            <div class="reactor-wrapper" id="reactor-trigger" title="Clique para falar um comando">
+                <!-- Círculos concêntricos rotativos -->
+                <div class="ring ring-outer"></div>
+                <div class="ring ring-middle"></div>
+                <div class="ring ring-inner"></div>
+                
+                <!-- Núcleo central do reator -->
+                <div class="reactor-core">
+                    <div class="core-wave"></div>
+                    <span class="core-text">AUTOWORK</span>
+                </div>
+            </div>
+            
+            <div class="status-panel">
+                <span class="bracket">[</span>
+                <span id="assistant-status" class="status-message">CLIQUE NO REATOR PARA ENVIAR COMANDO</span>
+                <span class="bracket">]</span>
+            </div>
+        </main>
+
+        <!-- Painel Esquerdo: Logs e Histórico -->
+        <section class="side-panel log-panel">
+            <div class="panel-header">
+                <span class="header-line"></span>
+                <span class="header-text">CONSOLE DE LOGS</span>
+            </div>
+            <div class="log-content" id="log-console">
+                <div class="log-entry system"><span class="timestamp">[SYS]</span> Conectado com o servidor Flask.</div>
+                <div class="log-entry system"><span class="timestamp">[SYS]</span> Reconhecimento e sintonia de voz inicializados.</div>
+            </div>
+        </section>
+
+        <!-- Painel Direito: Ações Rápidas -->
+        <section class="side-panel action-panel">
+            <div class="panel-header">
+                <span class="header-line"></span>
+                <span class="header-text">CONTROLE RÁPIDO</span>
+            </div>
+            <div class="action-grid">
+                <button class="action-btn" onclick="executeQuickCommand('abrir chrome')">
+                    <span class="btn-glow"></span>
+                    <span class="btn-icon">🌐</span>
+                    <span class="btn-text">Chrome</span>
+                </button>
+                <button class="action-btn" onclick="executeQuickCommand('abrir vs code')">
+                    <span class="btn-glow"></span>
+                    <span class="btn-icon">💻</span>
+                    <span class="btn-text">VS Code</span>
+                </button>
+                <button class="action-btn" onclick="executeQuickCommand('abrir google')">
+                    <span class="btn-glow"></span>
+                    <span class="btn-icon">🔍</span>
+                    <span class="btn-text">Google</span>
+                </button>
+                <button class="action-btn" onclick="executeQuickCommand('abrir youtube')">
+                    <span class="btn-glow"></span>
+                    <span class="btn-icon">📺</span>
+                    <span class="btn-text">YouTube</span>
+                </button>
+                <button class="action-btn" onclick="executeQuickCommand('horas')">
+                    <span class="btn-glow"></span>
+                    <span class="btn-icon">🕒</span>
+                    <span class="btn-text">Horas</span>
+                </button>
+                <button class="action-btn" onclick="executeQuickCommand('data')">
+                    <span class="btn-glow"></span>
+                    <span class="btn-icon">📅</span>
+                    <span class="btn-text">Data</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Rodapé: Caixa de Resultados e Transcrições -->
+        <footer class="hud-footer">
+            <div class="footer-block speech-input">
+                <span class="label">COMANDO DETECTADO:</span>
+                <span id="speech-transcript" class="transcript">"Aguardando..."</span>
+            </div>
+            <div class="footer-block speech-reply">
+                <span class="label">RESPOSTA AUTOWORK:</span>
+                <span id="speech-reply" class="reply">"Aguardando entrada de áudio ou cliques..."</span>
+            </div>
+            <div class="footer-info">
+                <span>MEM: OK</span>
+                <span>CPU: ACTIVE</span>
+                <span>DEV: ONLINE</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

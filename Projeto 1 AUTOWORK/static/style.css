@@ -1,0 +1,607 @@
+/* 
+   AUTOWORK CSS - Estilização Jarvis / Sci-Fi
+   Autor: Antigravity (Senior Full Stack Developer)
+*/
+
+:root {
+    --color-bg-dark: #020205;
+    --color-neon-blue: #00f3ff;
+    --color-neon-blue-dim: rgba(0, 243, 255, 0.3);
+    --color-neon-green: #39ff14;
+    --color-neon-green-dim: rgba(57, 255, 20, 0.3);
+    --color-neon-yellow: #ffdf00;
+    --color-neon-yellow-dim: rgba(255, 223, 0, 0.3);
+    --color-neon-red: #ff3b30;
+    --color-panel-bg: rgba(0, 20, 35, 0.5);
+    --font-heading: 'Orbitron', sans-serif;
+    --font-body: 'Exo 2', sans-serif;
+    --border-glow: 0 0 15px rgba(0, 243, 255, 0.5);
+    --text-glow: 0 0 10px rgba(0, 243, 255, 0.8);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    background-color: var(--color-bg-dark);
+    color: #ffffff;
+    font-family: var(--font-body);
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    background-image: url('/static/images/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Camada escura de overlay por cima da imagem de background para garantir contraste */
+.background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(2, 2, 5, 0.4) 0%, rgba(2, 2, 5, 0.85) 80%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Container Geral da HUD */
+.hud-container {
+    position: relative;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 80px 1fr 140px;
+    grid-template-columns: 320px 1fr 320px;
+    padding: 20px;
+}
+
+/* Linhas Decorativas de Grade Futurista */
+.grid-line {
+    position: absolute;
+    background: var(--color-neon-blue-dim);
+    box-shadow: 0 0 8px rgba(0, 243, 255, 0.2);
+    z-index: 1;
+    pointer-events: none;
+}
+.horizontal-top { top: 75px; left: 20px; right: 20px; height: 1px; }
+.horizontal-bottom { bottom: 155px; left: 20px; right: 20px; height: 1px; }
+.vertical-left { left: 330px; top: 85px; bottom: 165px; width: 1px; }
+.vertical-right { right: 330px; top: 85px; bottom: 165px; width: 1px; }
+
+/* Detalhes de Cantos da HUD */
+.hud-corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-neon-blue);
+    z-index: 2;
+    pointer-events: none;
+    box-shadow: var(--border-glow);
+}
+.top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; }
+.top-right { top: 20px; right: 20px; border-left: none; border-bottom: none; }
+.bottom-left { bottom: 20px; left: 20px; border-right: none; border-top: none; }
+.bottom-right { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+
+/* Cabeçalho do HUD */
+.hud-header {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    font-family: var(--font-heading);
+    letter-spacing: 2px;
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: var(--color-neon-blue);
+    text-shadow: var(--text-glow);
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-neon-blue);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--color-neon-blue);
+}
+
+.pulse-dot.active {
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.9); opacity: 0.5; box-shadow: 0 0 5px var(--color-neon-blue); }
+    100% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 15px var(--color-neon-blue); }
+}
+
+.clock-display {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+.auth-tag {
+    font-size: 0.85rem;
+    color: var(--color-neon-blue-dim);
+}
+
+/* Área Central/Main */
+.hud-main {
+    grid-column: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Visualizador de Reator Central - Círculo Jarvis */
+.reactor-wrapper {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.reactor-wrapper:hover {
+    transform: scale(1.02);
+}
+
+/* Aneis Rotatórios */
+.ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid var(--color-neon-blue);
+    box-shadow: var(--border-glow), inset 0 0 15px rgba(0, 243, 255, 0.2);
+    transition: var(--transition);
+}
+
+.ring-outer {
+    width: 320px;
+    height: 320px;
+    border-style: double;
+    border-width: 4px;
+    animation: rotateCW 20s linear infinite;
+}
+
+.ring-middle {
+    width: 270px;
+    height: 270px;
+    border-style: dashed;
+    border-width: 2px;
+    animation: rotateCCW 15s linear infinite;
+}
+
+.ring-inner {
+    width: 220px;
+    height: 220px;
+    border-style: dotted;
+    border-width: 3px;
+    animation: rotateCW 8s linear infinite;
+}
+
+/* Núcleo do Reator */
+.reactor-core {
+    position: absolute;
+    width: 170px;
+    height: 170px;
+    background: radial-gradient(circle, rgba(0, 243, 255, 0.3) 0%, rgba(2, 2, 5, 0.9) 70%);
+    border: 2px solid var(--color-neon-blue);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: var(--border-glow), inset 0 0 20px rgba(0, 243, 255, 0.4);
+    z-index: 5;
+    overflow: hidden;
+}
+
+.core-wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: transparent;
+    border: 4px solid var(--color-neon-blue);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.core-text {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #ffffff;
+    text-shadow: var(--text-glow);
+    z-index: 6;
+}
+
+/* Animações de Rotação */
+@keyframes rotateCW {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes rotateCCW {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+}
+
+/* ESTADOS DE ANIMAÇÃO DO REACTOR */
+
+/* 1. Estado Ouvindo (Listening) - Verde Néon */
+.reactor-wrapper.listening .ring {
+    border-color: var(--color-neon-green);
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.6), inset 0 0 20px rgba(57, 255, 20, 0.3);
+}
+.reactor-wrapper.listening .ring-outer {
+    animation: rotateCW 6s linear infinite;
+}
+.reactor-wrapper.listening .ring-middle {
+    animation: rotateCCW 5s linear infinite;
+}
+.reactor-wrapper.listening .ring-inner {
+    border-style: solid;
+    animation: rotateCW 2s linear infinite;
+}
+.reactor-wrapper.listening .reactor-core {
+    border-color: var(--color-neon-green);
+    box-shadow: 0 0 25px rgba(57, 255, 20, 0.8), inset 0 0 25px rgba(57, 255, 20, 0.5);
+    background: radial-gradient(circle, rgba(57, 255, 20, 0.4) 0%, rgba(2, 2, 5, 0.95) 75%);
+}
+.reactor-wrapper.listening .core-wave {
+    animation: wavePulse 1s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+    border-color: var(--color-neon-green);
+}
+
+/* 2. Estado Processando (Processing) - Amarelo/Dourado Néon */
+.reactor-wrapper.processing .ring {
+    border-color: var(--color-neon-yellow);
+    box-shadow: 0 0 20px rgba(255, 223, 0, 0.6), inset 0 0 20px rgba(255, 223, 0, 0.3);
+}
+.reactor-wrapper.processing .ring-outer {
+    animation: rotateCW 2s linear infinite;
+}
+.reactor-wrapper.processing .ring-middle {
+    animation: rotateCCW 2s linear infinite;
+}
+.reactor-wrapper.processing .ring-inner {
+    animation: rotateCW 1s linear infinite;
+}
+.reactor-wrapper.processing .reactor-core {
+    border-color: var(--color-neon-yellow);
+    box-shadow: 0 0 25px rgba(255, 223, 0, 0.8), inset 0 0 25px rgba(255, 223, 0, 0.5);
+    background: radial-gradient(circle, rgba(255, 223, 0, 0.4) 0%, rgba(2, 2, 5, 0.95) 75%);
+}
+
+/* 3. Estado Falando (Speaking) - Pulsações em Ondas Azuis */
+.reactor-wrapper.speaking .ring {
+    box-shadow: 0 0 25px rgba(0, 243, 255, 0.8), inset 0 0 20px rgba(0, 243, 255, 0.4);
+}
+.reactor-wrapper.speaking .reactor-core {
+    animation: speakPulse 0.4s ease-in-out infinite alternate;
+}
+.reactor-wrapper.speaking .core-wave {
+    animation: wavePulse 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+}
+
+@keyframes wavePulse {
+    0% { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(2.0); opacity: 0; }
+}
+
+@keyframes speakPulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 15px var(--color-neon-blue), inset 0 0 15px rgba(0, 243, 255, 0.3); }
+    100% { transform: scale(1.05); box-shadow: 0 0 35px var(--color-neon-blue), inset 0 0 25px rgba(0, 243, 255, 0.7); }
+}
+
+/* Painel de Status Textual */
+.status-panel {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bracket {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--color-neon-blue-dim);
+    text-shadow: var(--text-glow);
+}
+
+.status-message {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    color: var(--color-neon-blue);
+    text-shadow: var(--text-glow);
+    letter-spacing: 1px;
+}
+
+/* Painéis Laterais (Logs e Ações) */
+.side-panel {
+    grid-row: 2 / 3;
+    background-color: var(--color-panel-bg);
+    border: 1px solid var(--color-neon-blue-dim);
+    box-shadow: inset 0 0 15px rgba(0, 243, 255, 0.05);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    z-index: 10;
+}
+
+.log-panel {
+    grid-column: 1 / 2;
+    margin-right: 20px;
+}
+
+.action-panel {
+    grid-column: 3 / 4;
+    margin-left: 20px;
+}
+
+.panel-header {
+    padding: 15px;
+    border-bottom: 1px solid var(--color-neon-blue-dim);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-line {
+    width: 4px;
+    height: 15px;
+    background-color: var(--color-neon-blue);
+    box-shadow: var(--border-glow);
+}
+
+.header-text {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+/* Conteúdo de Logs */
+.log-content {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    font-family: monospace;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+.log-content::-webkit-scrollbar {
+    width: 4px;
+}
+.log-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.log-content::-webkit-scrollbar-thumb {
+    background: var(--color-neon-blue-dim);
+    border-radius: 2px;
+}
+
+.log-entry {
+    line-height: 1.4;
+    word-break: break-all;
+}
+
+.log-entry.system { color: #88c0d0; }
+.log-entry.user { color: var(--color-neon-blue); }
+.log-entry.assistant { color: #a3be8c; }
+.log-entry.error { color: var(--color-neon-red); }
+
+.timestamp {
+    color: rgba(255, 255, 255, 0.3);
+    margin-right: 5px;
+}
+
+/* Grade de Ações Rápidas */
+.action-grid {
+    flex: 1;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 15px;
+    align-content: start;
+}
+
+.action-btn {
+    position: relative;
+    background: rgba(0, 243, 255, 0.03);
+    border: 1px solid var(--color-neon-blue-dim);
+    border-radius: 6px;
+    height: 75px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.action-btn:hover {
+    background: rgba(0, 243, 255, 0.1);
+    border-color: var(--color-neon-blue);
+    box-shadow: 0 0 12px rgba(0, 243, 255, 0.25);
+}
+
+.btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(0, 243, 255, 0.2) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease;
+}
+
+.action-btn:hover .btn-glow {
+    width: 150px;
+    height: 150px;
+}
+
+.btn-icon {
+    font-size: 1.4rem;
+    z-index: 2;
+}
+
+.btn-text {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    z-index: 2;
+}
+
+.action-btn:hover .btn-text {
+    color: var(--color-neon-blue);
+    text-shadow: var(--text-glow);
+}
+
+/* Rodapé HUD (Caixas de Transcrição e Resposta) */
+.hud-footer {
+    grid-column: 1 / -1;
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 180px;
+    border: 1px solid var(--color-neon-blue-dim);
+    background-color: var(--color-panel-bg);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+    z-index: 10;
+}
+
+.footer-block {
+    padding: 15px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+
+.speech-input {
+    border-right: 1px solid var(--color-neon-blue-dim);
+}
+
+.speech-reply {
+    border-right: 1px solid var(--color-neon-blue-dim);
+}
+
+.hud-footer .label {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-neon-blue-dim);
+    letter-spacing: 1.5px;
+}
+
+.transcript, .reply {
+    font-size: 0.95rem;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.transcript {
+    color: var(--color-neon-blue);
+    text-shadow: 0 0 5px rgba(0, 243, 255, 0.3);
+}
+
+.reply {
+    color: #e5e9f0;
+}
+
+.footer-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 0 25px;
+    gap: 8px;
+    font-family: var(--font-heading);
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+}
+
+/* Responsividade Básica do Layout */
+@media (max-width: 1024px) {
+    .hud-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
+        height: auto;
+        overflow-y: auto;
+    }
+    
+    .side-panel {
+        grid-column: 1 / -1;
+        margin: 10px 0;
+        height: 250px;
+    }
+    
+    .hud-main {
+        grid-column: 1 / -1;
+        padding: 40px 0;
+    }
+    
+    .hud-footer {
+        grid-template-columns: 1fr;
+        grid-row: auto;
+    }
+    
+    .speech-input, .speech-reply {
+        border-right: none;
+        border-bottom: 1px solid var(--color-neon-blue-dim);
+    }
+    
+    .footer-info {
+        align-items: center;
+        padding: 15px;
+    }
+    
+    .grid-line, .hud-corner {
+        display: none;
+    }
+}
